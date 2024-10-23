@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { useRef } from "react";
+import { getSupabaseBrowserClient } from "./supabase-utils/browserClient";
+import { useRouter } from "next/navigation";
 
 export const Login = ({ isPasswordLogin }) => {
   const formRef = useRef();
+  const supabase = getSupabaseBrowserClient();
+
+  const router = useRouter();
 
   return (
     <form
@@ -13,6 +18,20 @@ export const Login = ({ isPasswordLogin }) => {
         const formData = new FormData(formRef.current);
         const email = formData.get("email");
         const password = formData.get("password");
+
+        if (isPasswordLogin) {
+          supabase.auth
+            .signInWithPassword({ email, password })
+            .then((result) => {
+              if (result.data?.user) {
+                router.push("/tickets");
+              } else {
+                alert("Failed to log in!");
+              }
+            });
+        } else {
+          console.log("not");
+        }
       }}
     >
       <article style={{ maxWidth: "420px", margin: "auto" }}>
