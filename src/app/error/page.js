@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 export default async function ErrorPage({ searchParams }) {
   const { type } = await searchParams;
   const knownErrors = ["login-failed", "magiclink"];

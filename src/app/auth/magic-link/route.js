@@ -14,7 +14,7 @@ export async function POST(request) {
   if (error) {
     return NextResponse.redirect(
       new URL("/error?type=magiclink", request.url),
-      302
+      302,
     );
   }
 

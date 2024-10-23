@@ -1,9 +1,10 @@
 "use client";
-import CustomNavLink from "./CustomNavLink";
-import { getSupabaseBrowserClient } from "../supabase-utils/browserClient";
+
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Link from "next/link";
+import { getSupabaseBrowserClient } from "../supabase-utils/browserClient";
+import CustomNavLink from "./CustomNavLink";
 
 const appRoutes = [
   { name: "Ticket List", path: "/tickets" },
@@ -25,7 +26,7 @@ export default function Nav() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [router, supabase]);
 
   return (
     <nav>

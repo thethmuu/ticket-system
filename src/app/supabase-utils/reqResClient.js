@@ -29,7 +29,7 @@ export const getSupabaseReqResClient = ({ request }) => {
           });
         },
       },
-    }
+    },
   );
 
   return {

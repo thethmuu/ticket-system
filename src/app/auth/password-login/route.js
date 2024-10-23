@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { getSupabaseCookiesUtilClient } from "@/supabase-utils/cookiesUtilClient";
+import { NextResponse } from "next/server";
 
 export async function POST(request) {
   const formData = await request.formData();
@@ -17,7 +17,7 @@ export async function POST(request) {
   if (error || !userData) {
     return NextResponse.redirect(
       new URL("/error?type=login-failed", request.url),
-      { status: 302 }
+      { status: 302 },
     );
   }
   return NextResponse.redirect(new URL("/tickets", request.url), {

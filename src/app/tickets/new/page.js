@@ -1,5 +1,7 @@
 "use client";
+
 import { useRef } from "react";
+
 export default function CreateTicket() {
   const ticketTitleRef = useRef(null);
   const ticketDescriptionRef = useRef(null);

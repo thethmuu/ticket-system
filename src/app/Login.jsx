@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { getSupabaseBrowserClient } from "./supabase-utils/browserClient";
-import { useRouter } from "next/navigation";
 
 export const Login = ({ isPasswordLogin }) => {
   const formRef = useRef();
