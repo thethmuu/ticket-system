@@ -28,11 +28,9 @@ export const Login = ({ isPasswordLogin }) => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    if (isPasswordLogin) {
-      supabase.auth.signInWithPassword({ email, password }).then((result) => {
-        !result.data?.user && alert("Could not sign in");
-      });
-    }
+    supabase.auth.signInWithPassword({ email, password }).then((result) => {
+      !result.data?.user && alert("Could not sign in");
+    });
   };
 
   return (
