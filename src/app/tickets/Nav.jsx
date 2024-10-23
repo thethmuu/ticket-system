@@ -1,5 +1,9 @@
-import Link from "next/link";
+"use client";
 import CustomNavLink from "./CustomNavLink";
+import { getSupabaseBrowserClient } from "../supabase-utils/browserClient";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Link from "next/link";
 
 const appRoutes = [
   { name: "Ticket List", path: "/tickets" },
@@ -8,6 +12,21 @@ const appRoutes = [
 ];
 
 export default function Nav() {
+  const supabase = getSupabaseBrowserClient();
+  const router = useRouter();
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") {
+        router.push("/");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <nav>
       <ul>
@@ -19,7 +38,15 @@ export default function Nav() {
       </ul>
       <ul>
         <li>
-          <Link role="button" href="/logout" className="secondary">
+          <Link
+            prefetch={false}
+            href="/auth/logout"
+            role="button"
+            className="secondary"
+            onClick={() => {
+              supabase.auth.signOut();
+            }}
+          >
             Log out
           </Link>
         </li>
