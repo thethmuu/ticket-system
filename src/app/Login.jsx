@@ -9,30 +9,33 @@ export const Login = ({ isPasswordLogin }) => {
 
   const router = useRouter();
 
+  const handleSubmit = async (e) => {
+    // only for password login
+    isPasswordLogin && e.preventDefault();
+
+    const formData = new FormData(formRef.current);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    if (isPasswordLogin) {
+      supabase.auth.signInWithPassword({ email, password }).then((result) => {
+        if (result.data?.user) {
+          router.push("/tickets");
+        } else {
+          alert("Failed to log in!");
+        }
+      });
+    } else {
+      console.log("not");
+    }
+  };
+
   return (
     <form
+      action={isPasswordLogin ? "/auth/password-login" : "/auth/magic-link"}
+      method="POST"
       ref={formRef}
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        const formData = new FormData(formRef.current);
-        const email = formData.get("email");
-        const password = formData.get("password");
-
-        if (isPasswordLogin) {
-          supabase.auth
-            .signInWithPassword({ email, password })
-            .then((result) => {
-              if (result.data?.user) {
-                router.push("/tickets");
-              } else {
-                alert("Failed to log in!");
-              }
-            });
-        } else {
-          console.log("not");
-        }
-      }}
+      onSubmit={handleSubmit}
     >
       <article style={{ maxWidth: "420px", margin: "auto" }}>
         <header>Login</header>
