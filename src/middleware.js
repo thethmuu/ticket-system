@@ -3,14 +3,15 @@ import { getSupabaseReqResClient } from "./app/supabase-utils/reqResClient";
 
 export async function middleware(request) {
   const { supabase, response } = getSupabaseReqResClient({ request });
-  const session = await supabase.auth.getSession();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const requestedPath = request.nextUrl.pathname;
-  const sessionUser = session.data?.session?.user;
 
-  if (requestedPath.startsWith("/tickets") && !sessionUser) {
+  if (requestedPath.startsWith("/tickets") && !user) {
     return NextResponse.redirect(new URL("/", request.url));
-  } else if (requestedPath === "/" && sessionUser) {
+  } else if (requestedPath === "/" && user) {
     return NextResponse.redirect(new URL("/tickets", request.url));
   }
 
