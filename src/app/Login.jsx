@@ -1,13 +1,24 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { getSupabaseBrowserClient } from "./supabase-utils/browserClient";
 
 export const Login = ({ isPasswordLogin }) => {
   const formRef = useRef();
   const supabase = getSupabaseBrowserClient();
-
   const router = useRouter();
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") {
+        router.push("/tickets");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router, supabase]);
 
   const handleSubmit = async (e) => {
     // only for password login
@@ -19,14 +30,8 @@ export const Login = ({ isPasswordLogin }) => {
 
     if (isPasswordLogin) {
       supabase.auth.signInWithPassword({ email, password }).then((result) => {
-        if (result.data?.user) {
-          router.push("/tickets");
-        } else {
-          alert("Failed to log in!");
-        }
+        !result.data?.user && alert("Could not sign in");
       });
-    } else {
-      console.log("not");
     }
   };
 
