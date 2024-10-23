@@ -9,12 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "@supabase/ssr": "^0.5.1",
+    "@supabase/supabase-js": "^2.45.6",
+    "next": "15.0.0",
     "react": "19.0.0-rc-65a56d0e-20241020",
-    "react-dom": "19.0.0-rc-65a56d0e-20241020",
-    "next": "15.0.0"
+    "react-dom": "19.0.0-rc-65a56d0e-20241020"
   },
   "devDependencies": {
-    "eslint": "^8",
-    "eslint-config-next": "15.0.0"
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+    "eslint": "^9.13.0",
+    "eslint-config-next": "15.0.0",
+    "supabase": "^1.207.9"
   }
 }
